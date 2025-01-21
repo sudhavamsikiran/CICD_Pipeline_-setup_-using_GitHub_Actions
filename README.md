@@ -1,29 +1,29 @@
-# CICD_Pipeline_-setup_-using_GitHub_Actions
-CI/CD pipeline using GitHub Actions that automates the build, test, and deployment process for the application
 ## CI/CD Pipeline
 
-### Overview
-This repository contains a CI/CD pipeline implemented using GitHub Actions. The pipeline automates the build and deployment processes, ensuring high-quality and secure code delivery.
+This repository includes a CI/CD pipeline using GitHub Actions. The pipeline automates the following tasks:
 
-### Pipeline Workflow
-The pipeline is triggered on every push and pull request to the `main` branch. It consists of the following steps:
+1. **Linting**: Ensures code quality by running linters.
+2. **Unit Testing**: Runs unit tests to verify application functionality.
+3. **Containerization**: Builds a Docker image of the application.
+4. **Security Scanning**: Integrates GitHub Advanced Security features like secret scanning and code security checks.
+5. **Deployment**: Automatically deploys the containerized application to the AKS environment using Helm.
 
-1. **Checkout code:** Fetches the repository content.
-2. **Set up Node.js:** Installs the specified Node.js version.
-3. **Install dependencies:** Installs the required project dependencies.
-4. **Run tests:** Executes the test suite.
-5. **Build project:** Builds the project for production.
-6. **Scan for secrets:** Uses Yelp's `detect-secrets` to scan for sensitive information in the codebase.
-7. **Security scan:** Uses GitHub's CodeQL to perform a security scan.
+### Workflow Files
 
-### Deployment
-After a successful build, the pipeline deploys the application to the production environment.
+The workflow configuration can be found in the `.github/workflows/ci-cd-pipeline.yml` file.
 
-### Quality and Security Checks
-The pipeline ensures quality and security through the following checks:
+### Secrets and Environment Variables
 
-- **Automated tests:** Runs the test suite to verify code functionality.
-- **Secret scanning:** Detects any hardcoded secrets in the codebase.
-- **Security scanning:** Identifies potential security vulnerabilities using CodeQL analysis.
+Ensure the following secrets are configured in the GitHub repository:
+- `AZURE_CREDENTIALS`: Azure service principal credentials for AKS.
+- `AKS_CLUSTER_NAME`: Name of the AKS cluster.
+- `AKS_RESOURCE_GROUP`: Resource group of the AKS cluster.
 
+### How It Works
 
+1. **Linting and Testing**: On each push or pull request to the `main` branch, the workflow runs linting and unit tests.
+2. **Building**: If the linting and tests pass, the workflow builds a Docker image and tags it with the commit SHA.
+3. **Security Scanning**: Secret scanning and code security checks are performed.
+4. **Deployment**: The Docker image is deployed to the AKS cluster using Helm.
+
+This pipeline ensures that any changes to the `main` branch are thoroughly checked and automatically deployed, maintaining code quality and security.
